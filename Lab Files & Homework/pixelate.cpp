@@ -3,9 +3,8 @@
 Name: Tanubrata Dey
 Course: Csci136
 Instructor: Minh Nguyen
-Task: Lab 8C
-This file draws a white box in the middle of the designated image
-
+Task: Lab 8F
+This file turns the given image into pixelated image by creating a non-overlapping window contain same image
 *******************************************************************************/
 #include <iostream>
 #include <cassert>
@@ -81,6 +80,32 @@ void writeImage(int image[MAX_H][MAX_W], int height, int width) {
 	ostr.close();
 	return;
 }
+//this is the helper function that helps copying each pixel of input as a small 2x2 square in output
+/*void copy2x2(int img[MAX_H][MAX_W], int out[2*MAX_H][2*MAX_W], int row, int col) {
+    for (int i=2*row; i<2*row+2; i++) {
+        for (int j=2*col; j<2*col+2; j++) {
+            out[i][j] = img[row][col];
+        }
+    }
+    
+}
+*/
+//Part F: This is the helper function that helps averaging the 2x2 square
+void pixelate2x2(int img[MAX_H][MAX_W], int out[MAX_H][MAX_W], int row, int col) {
+    int avg = 0;
+    for (int i=row; i<row+2; i++) {//finish for loop
+        for (int j=col; j<col+2; j++) {//since we only deal with 2x2 square, thats why we only need to go from row(col) to row+2
+            avg = avg + img[i][j];
+        }
+    }
+    avg = avg/4;
+    
+    for (int i=row; i<row+2; i++) {//finish for loop
+        for (int j=col; j<col+2; j++) {
+            out[i][j] = avg;
+        }
+    }
+}
 
 int main() {
 
@@ -97,17 +122,27 @@ int main() {
 	int out[MAX_H][MAX_W];
 
 ////Since its a 2D array (matrix), we use nested loop 
+/*
 	for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
-		    if ((col >= w/4 && col <= 3*w/4) && (row >= h/4 && row <= 3*h/4)) {//the right half of the image invert
-		        out[row][col] = 255 ;//convert every pixel to 255 i.e white
+		    if ((row >= h/4 && row <= 3*h/4) && (col == w/4 || col == 3*w/4)) {//the right half of the image invert
+		        out[row][col] = 255;//convert every pixel to 255 i.e white
+		    }
+		    else if ((col >= w/4 && col <=3*w/4) && (row == h/4 || row == 3*h/4)) {
+		        out[row][col] = 255;
 		    }
 			else {//the rest keep it same
 			    out[row][col] = img[row][col];
 			}
 		}
 	}
-
+*/
+//PART F
+    for(int row = 0; row < h; row+2) {
+		for(int col = 0; col < w; col+2) {
+		    pixelate2x2(img, out, row, col);
+		}
+    }
 	// and save this new image to file "outImage.pgm"
 	writeImage(out, h, w);
 

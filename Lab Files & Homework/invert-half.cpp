@@ -3,8 +3,7 @@
 Name: Tanubrata Dey
 Course: Csci136
 Instructor: Minh Nguyen
-Task: Lab 8C
-This file draws a white box in the middle of the designated image
+This file turns a B/W image inverts the colors only in the right half of the picture.
 
 *******************************************************************************/
 #include <iostream>
@@ -99,10 +98,10 @@ int main() {
 ////Since its a 2D array (matrix), we use nested loop 
 	for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
-		    if ((col >= w/4 && col <= 3*w/4) && (row >= h/4 && row <= 3*h/4)) {//the right half of the image invert
-		        out[row][col] = 255 ;//convert every pixel to 255 i.e white
+		    if (col >= w/2) {
+		        out[row][col] = 255 - img[row][col];//out [row] [col] is a pixel.
 		    }
-			else {//the rest keep it same
+			else {
 			    out[row][col] = img[row][col];
 			}
 		}

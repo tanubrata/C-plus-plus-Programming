@@ -3,8 +3,8 @@
 Name: Tanubrata Dey
 Course: Csci136
 Instructor: Minh Nguyen
-Task: Lab 8C
-This file draws a white box in the middle of the designated image
+Task: Lab 8D
+This file draws a white thick frame of 1 pixel in the middle of the designated image
 
 *******************************************************************************/
 #include <iostream>
@@ -99,8 +99,11 @@ int main() {
 ////Since its a 2D array (matrix), we use nested loop 
 	for(int row = 0; row < h; row++) {
 		for(int col = 0; col < w; col++) {
-		    if ((col >= w/4 && col <= 3*w/4) && (row >= h/4 && row <= 3*h/4)) {//the right half of the image invert
-		        out[row][col] = 255 ;//convert every pixel to 255 i.e white
+		    if ((row >= h/4 && row <= 3*h/4) && (col == w/4 || col == 3*w/4)) {//the right half of the image invert
+		        out[row][col] = 255;//convert every pixel to 255 i.e white
+		    }
+		    else if ((col >= w/4 && col <=3*w/4) && (row == h/4 || row == 3*h/4)) {
+		        out[row][col] = 255;
 		    }
 			else {//the rest keep it same
 			    out[row][col] = img[row][col];
